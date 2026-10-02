@@ -71,4 +71,34 @@ $("#resetButton").onclick=()=>{
  }
 };
 setInterval(()=>{if(data.auto){data.coins+=data.auto*mult();save();render()}},1000);
-render();
+render();\n
+const browserFrame=$("#browserFrame"),browserUrl=$("#browserUrl");
+let browserHistory=["https://example.com"],browserPos=0;
+function normalizeUrl(raw){
+  raw=raw.trim();
+  if(!raw)return "https://example.com";
+  if(/^https?:\\/\\//i.test(raw))return raw;
+  if(raw.includes(" ")||(!raw.includes(".")&&!raw.includes("/")))return "https://www.google.com/search?q="+encodeURIComponent(raw);
+  return "https://"+raw;
+}
+function browserGo(raw,addHistory=true){
+  const url=normalizeUrl(raw);
+  browserUrl.value=url;
+  browserFrame.src=url;
+  if(addHistory){
+    browserHistory=browserHistory.slice(0,browserPos+1);
+    browserHistory.push(url);browserPos=browserHistory.length-1;
+  }
+}
+$("#browserGo").onclick=()=>browserGo(browserUrl.value);
+browserUrl.addEventListener("keydown",e=>{if(e.key==="Enter")browserGo(browserUrl.value)});
+$("#browserReload").onclick=()=>{browserFrame.src=browserFrame.src};
+$("#browserBack").onclick=()=>{
+  if(browserPos>0){browserPos--;browserGo(browserHistory[browserPos],false)}
+};
+$("#browserForward").onclick=()=>{
+  if(browserPos<browserHistory.length-1){browserPos++;browserGo(browserHistory[browserPos],false)}
+};
+$("#browserExternal").onclick=()=>window.open(browserUrl.value,"_blank","noopener,noreferrer");
+document.querySelectorAll(".browser-quick").forEach(b=>b.onclick=()=>browserGo(b.dataset.url));
+browserFrame.addEventListener("load",()=>{try{browserUrl.value=browserFrame.contentWindow.location.href}catch{}});
