@@ -13,4 +13,14 @@ header{text-align:center}h1{font-size:42px;margin:0 0 5px}.subtitle{opacity:.72;
 #leaderboard{margin:0;padding-left:25px}.coin{position:fixed;pointer-events:none;font-weight:900;color:#ffe27a;animation:fly .8s ease-out forwards;z-index:10}@keyframes fly{to{transform:translateY(-80px);opacity:0}}
 .save-note{text-align:center;font-size:12px;opacity:.4;margin:10px 0 0}
 body.skin-neon .game{background:rgba(42,8,70,.35)}body.skin-fire .game{background:rgba(80,20,10,.3)}body.skin-ice .game{background:rgba(10,50,80,.3)}
-@media(max-width:560px){.game{padding:19px}.stats{grid-template-columns:1fr 1fr}.stats div:last-child{grid-column:1/-1}.upgrade{grid-template-columns:38px 1fr}.upgrade button{grid-column:2;grid-row:2;width:max-content}.click-button{width:175px;height:175px}.skin-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.game{padding:19px}.stats{grid-template-columns:1fr 1fr}.stats div:last-child{grid-column:1/-1}.upgrade{grid-template-columns:38px 1fr}.upgrade button{grid-column:2;grid-row:2;width:max-content}.click-button{width:175px;height:175px}.skin-grid{grid-template-columns:repeat(2,1fr)}}\n
+.browser-panel{overflow:hidden}
+.browser{border-radius:15px;overflow:hidden;background:#fff;color:#172033;border:1px solid rgba(255,255,255,.14)}
+.browser-top{display:grid;grid-template-columns:auto auto auto 1fr auto auto;gap:6px;padding:8px;background:#e9edf3;align-items:center}
+.browser-top button,.browser-quick{border:0;border-radius:8px;padding:8px 10px;cursor:pointer;background:#d8dee8;color:#172033;font-weight:700}
+.browser-top button:hover,.browser-quick:hover{filter:brightness(.96)}
+#browserUrl{min-width:0;width:100%;border:1px solid #c6ccd6;border-radius:8px;padding:9px 11px;background:#fff;color:#172033;outline:none}
+.browser-tabs{display:flex;gap:6px;padding:7px 8px;background:#f4f6f9;border-top:1px solid #d9dee6;border-bottom:1px solid #d9dee6;overflow:auto}
+.browser-quick{font-size:12px;padding:6px 10px;white-space:nowrap}
+#browserFrame{display:block;width:100%;height:430px;border:0;background:#fff}
+@media(max-width:700px){.browser-top{grid-template-columns:auto auto auto 1fr auto}.browser-top #browserExternal{grid-column:1/-1}.browser-top #browserGo{display:none}#browserFrame{height:360px}}
