@@ -1,33 +1,11 @@
-let score = Number(localStorage.getItem("danclick-score")) || 0;
-let clicks = Number(localStorage.getItem("danclick-clicks")) || 0;
-let best = Number(localStorage.getItem("danclick-best")) || 0;
-
-const scoreEl = document.querySelector("#score");
-const clicksEl = document.querySelector("#clicks");
-const bestEl = document.querySelector("#best");
-
-function render() {
-  scoreEl.textContent = score;
-  clicksEl.textContent = clicks;
-  bestEl.textContent = best;
-}
-
-document.querySelector("#clickButton").addEventListener("click", () => {
-  score++;
-  clicks++;
-  if (score > best) best = score;
-  localStorage.setItem("danclick-score", score);
-  localStorage.setItem("danclick-clicks", clicks);
-  localStorage.setItem("danclick-best", best);
-  render();
-});
-
-document.querySelector("#resetButton").addEventListener("click", () => {
-  score = 0;
-  clicks = 0;
-  localStorage.setItem("danclick-score", score);
-  localStorage.setItem("danclick-clicks", clicks);
-  render();
-});
-
-render();
+const KEY="danclick-v2";
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{coins:Number(localStorage.getItem("danclick-score"))||0,clicks:Number(localStorage.getItem("danclick-clicks"))||0,best:Number(localStorage.getItem("danclick-best"))||0,power:0,auto:0,multi:0,combo:0,lastClick:0};
+const $=s=>document.querySelector(s), costs={power:25,auto:100,multi:500};
+const achievements=[["first","Первый клик","clicks",1],["hundred","Сотня","clicks",100],["thousand","Тысячник","clicks",1000],["rich","Богач","coins",1000],["power","Сила","power",5],["robot","Робот","auto",5],["legend","Легенда","clicks",10000]];
+const save=()=>localStorage.setItem(KEY,JSON.stringify(data)), level=()=>Math.floor(data.clicks/100)+1, mult=()=>2**data.multi, value=()=> (1+data.power)*mult(), cost=t=>Math.floor(costs[t]*1.7**data[t]);
+function render(){const x=data.clicks%100;$("#score").textContent=Math.floor(data.coins);$("#coins").textContent=Math.floor(data.coins);$("#clicks").textContent=data.clicks;$("#best").textContent=data.best;$("#level").textContent=level();$("#levelProgress").textContent=x+" / 100 XP";$("#xpBar").style.width=x+"%";for(const t of ["power","auto","multi"]){$("#"+t+"Level").textContent=data[t];$("#"+t+"Cost").textContent=cost(t);document.querySelector('[data-upgrade="'+t+'"]').disabled=data.coins<cost(t)}const list=$("#achievementsList");list.innerHTML="";achievements.forEach(([id,title,key,val])=>{const e=document.createElement("span"),done=data[key]>=val;e.className="achievement"+(done?" done":"");e.textContent=(done?"🏆 ":"🔒 ")+title;list.appendChild(e)})}
+function pop(x,y,n){const e=document.createElement("div");e.className="coin";e.textContent="+"+n;e.style.left=x+"px";e.style.top=y+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),800)}
+$("#clickButton").onclick=e=>{const now=Date.now();data.combo=now-data.lastClick<1200?data.combo+1:1;data.lastClick=now;const n=value();data.coins+=n;data.clicks++;data.best=Math.max(data.best,data.clicks);$("#combo").textContent=data.combo>1?"🔥 Комбо x"+data.combo:"";pop(e.clientX,e.clientY,n);save();render()};
+document.querySelectorAll("[data-upgrade]").forEach(b=>b.onclick=()=>{const t=b.dataset.upgrade,c=cost(t);if(data.coins>=c){data.coins-=c;data[t]++;save();render()}});
+$("#resetButton").onclick=()=>{if(confirm("Точно удалить весь прогресс?")){localStorage.removeItem(KEY);location.reload()}};
+setInterval(()=>{if(data.auto){data.coins+=data.auto*mult();save();render()}},1000);render();

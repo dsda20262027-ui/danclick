@@ -1,2 +1,0 @@
-# danclick
-clicker by dan
