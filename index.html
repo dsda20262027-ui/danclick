@@ -3,20 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DanClick</title>
+  <title>DanClick 2.0</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="particles"></div>
   <main class="game">
-    <h1>DanClick</h1>
-    <p class="subtitle">Кликай и набирай очки!</p>
-    <div id="score" class="score">0</div>
-    <button id="clickButton" class="click-button">КЛИК!</button>
-    <div class="stats">
-      <span>Кликов: <b id="clicks">0</b></span>
-      <span>Рекорд: <b id="best">0</b></span>
-    </div>
-    <button id="resetButton" class="reset-button">Сбросить</button>
+    <header>
+      <h1>⚡ DanClick</h1>
+      <p class="subtitle">Кликай, прокачивайся и стань легендой!</p>
+    </header>
+
+    <section class="hero">
+      <div class="level-line">Уровень <b id="level">1</b> · <span id="levelProgress">0 / 100 XP</span></div>
+      <div class="progress"><div id="xpBar"></div></div>
+      <div id="score" class="score">0</div>
+      <div class="per-click">монет за клик: <b id="power">1</b></div>
+      <button id="clickButton" class="click-button">КЛИК!</button>
+      <div id="combo" class="combo"></div>
+    </section>
+
+    <section class="stats">
+      <div><span>💰 Монеты</span><b id="coins">0</b></div>
+      <div><span>👆 Кликов</span><b id="clicks">0</b></div>
+      <div><span>🏆 Рекорд</span><b id="best">0</b></div>
+    </section>
+
+    <section class="shop">
+      <h2>🛒 Магазин улучшений</h2>
+      <div class="shop-grid">
+        <article class="upgrade">
+          <div class="icon">👆</div>
+          <div><h3>Сила клика</h3><p>+1 монета за клик</p></div>
+          <button data-upgrade="power">Купить <b id="powerCost">25</b> 💰</button>
+          <small>Уровень: <b id="powerLevel">0</b></small>
+        </article>
+        <article class="upgrade">
+          <div class="icon">🤖</div>
+          <div><h3>Автокликер</h3><p>+1 монета каждую секунду</p></div>
+          <button data-upgrade="auto">Купить <b id="autoCost">100</b> 💰</button>
+          <small>Уровень: <b id="autoLevel">0</b></small>
+        </article>
+        <article class="upgrade">
+          <div class="icon">🚀</div>
+          <div><h3>Множитель</h3><p>Увеличивает доход в 2 раза</p></div>
+          <button data-upgrade="multi">Купить <b id="multiCost">500</b> 💰</button>
+          <small>Уровень: <b id="multiLevel">0</b></small>
+        </article>
+      </div>
+    </section>
+
+    <section class="achievements">
+      <h2>🏅 Достижения</h2>
+      <div id="achievementsList"></div>
+    </section>
+
+    <button id="resetButton" class="reset-button">♻ Сбросить весь прогресс</button>
+    <p class="save-note">💾 Прогресс сохраняется автоматически</p>
   </main>
   <script src="script.js"></script>
 </body>
